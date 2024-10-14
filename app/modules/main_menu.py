@@ -1,15 +1,13 @@
 import os
 
-class MainMenu: #System
+class MainMenu:
   def __init__(self, add_student_service, printfunc, searchfunc, user):
-    self.student_service = add_student_service
-    self.addfunc = self.student_service.func
+    self.student_service = add_student_service #add student class
+    self.addfunc = self.student_service.add_student #
     self.createfunc = self.student_service.create
     self.printfunc = printfunc
     self.searchfunc = searchfunc
     self.user = user
-    #self.read = read
-    #self.write = write
 
   @staticmethod
   def cls():
@@ -52,7 +50,7 @@ class MainMenu: #System
     print("===Nothing Follows===")
     input("\nPress enter to continue...")
 
-  def register_new_student(self): #fix later, how do i get student constructor here?? idk
+  def register_new_student(self):
     leave = False
     while leave is not True:
       MainMenu.cls()
@@ -78,11 +76,18 @@ class MainMenu: #System
     MainMenu.cls()
 
     user_input = input("Enter Student ID: ")
-    student = self.searchfunc(self.student_service.db, user_input)
+    student = self.searchfunc(self.student_service.path, user_input)
 
     if student:
       print("===Student Information===")
-      print(student)
+      name, age, id, email, num = student
+      print(
+            f"Name:   {name}\n"
+            f"Age:    {age}\n"
+            f"ID:     {id}\n"
+            f"Email:  {email}\n"
+            f"Phone:  {num}"
+            )
       print("=====Nothing Follows=====")
     else:
       print(f"Student ID '{user_input}' not found.")
@@ -94,7 +99,7 @@ class MainMenu: #System
     MainMenu.cls()
 
     print("===All Students Information===")
-    self.printfunc(self.student_service.db)
+    self.printfunc(self.student_service.student_list)
     print("=======Nothing Follows=======")
 
     input("\nPress enter to continue...")

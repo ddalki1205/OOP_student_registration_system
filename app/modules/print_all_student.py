@@ -1,4 +1,4 @@
 class PrintAllStudents:
-  def func(self, db):
-    for student in db:
+  def print_all_student(self, student_list):
+    for student in student_list:
       print(student)

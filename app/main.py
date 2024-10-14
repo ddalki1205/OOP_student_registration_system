@@ -10,9 +10,9 @@ DB_PATH = "app/student_data.txt"
 
 #initialize the classes
 admin = StudentInfo()
-student_db = admin.all_student
+student_list = admin.all_student
 
-add_student_service = AddStudent(StudentInfo, student_db, DB_PATH)
+add_student_service = AddStudent(StudentInfo, student_list, DB_PATH)
 log_in_service = LogIn()
 print_all_service = PrintAllStudents()
 search_service = Search()
@@ -20,8 +20,8 @@ search_service = Search()
 
 add_student_service.read()
 
-access = log_in_service.func(student_db)
+access = log_in_service.log_in(student_list)
 
 if access:
-      main_menu = MainMenu(add_student_service, print_all_service.func, search_service.func, access)
+      main_menu = MainMenu(add_student_service, print_all_service.print_all_student, search_service.search_student, access)
       main_menu.func()

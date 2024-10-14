@@ -2,7 +2,7 @@ import os
 
 class LogIn:
    MAX_ATTEMPTS = 4
-   def func(self, db):
+   def log_in(self, student_list):
     os.system('cls' if os.name == 'nt' else 'clear')
     print("Welcome to the Student Information System!")
     attempts = LogIn.MAX_ATTEMPTS
@@ -10,7 +10,7 @@ class LogIn:
     while attempts > 0:
       studentID = input("Enter your Student ID to access the system: ")
 
-      for student in db:
+      for student in student_list:
         if student.get_id() == studentID:
           return student
       attempts -= 1
