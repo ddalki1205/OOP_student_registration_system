@@ -4,14 +4,14 @@ class AddStudent:
     self.db = db            #The list in student.py => admin.all_students
     self.path = path        #THE TXT FILE
 
-  def func(self, student): #this deals with adding and writing(don't use before preloading from file)
+  def add_student(self, student): #this deals with adding and writing(don't use before preloading from file)
     self.db.append(student)
     self.write(student)
 
   def create(self, attributes):
     name, age, id, email, phone = attributes
     new_student = self.constructor(name, age, id, email, phone)
-    self.func(new_student)
+    self.add_student(new_student)
 
   def read(self):
     with open(self.path, 'r') as f:
