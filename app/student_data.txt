@@ -11,3 +11,4 @@ Ben,22,2023-2-00486,ben@lpunetwork.edu.ph,091230
 Maricar,20,2023-2-00312,maricar@lpunetwork.edu.ph,091231
 Cheilou,19,2023-2-00487,cheilou@lpunetwork.edu.ph,091232
 Louise,19,2023-2-00995,louise@lpunetwork.edu.ph,091233
+admin,admin,admin,ad@mail.com,ad
