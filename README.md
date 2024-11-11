@@ -9,7 +9,7 @@ Users can add new students, view student details, search for specific students, 
 
 ## LAYOUT
 ```
-app/                                      root folder of the application
+student_registration_system/                                      root folder of the application
 │
 ├── app/
 │   ├── modules                           all the services of the program
