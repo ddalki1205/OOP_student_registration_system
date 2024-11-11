@@ -3,7 +3,7 @@
 - allows you to read and add information
 
 ## Project Overview
-The Student Management System is a console-based application that allows for the management of student information.
+Student Management System - console-based application that allows for the management of student information.
 
 Users can add new students, view student details, search for specific students, and print all student records.
 
