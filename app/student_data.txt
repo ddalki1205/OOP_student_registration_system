@@ -4,9 +4,6 @@ Issa,19,2023-2-00677,issa@lpunetwork.edu.ph,091236
 Renzo,22,2023-2-02581,renzo@lpunetwork.edu.ph,091237
 Mark,20,2023-2-01443,mark@lpunetwork.edu.ph,091238
 Jassim,18,2023-2-00255,jassim@lpunetwork.edu.ph,091239
-Mark,20,2023-2-01443,mark@lpunetwork.edu.ph,091238
-Mark,20,2023-2-01443,mark@lpunetwork.edu.ph,091238
-Jassim,18,2023-2-00255,jassim@lpunetwork.edu.ph,091239
 Ben,22,2023-2-00486,ben@lpunetwork.edu.ph,091230
 Maricar,20,2023-2-00312,maricar@lpunetwork.edu.ph,091231
 Cheilou,19,2023-2-00487,cheilou@lpunetwork.edu.ph,091232
