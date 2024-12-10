@@ -1,106 +1,84 @@
-import os
+import tkinter as tk
+from tkinter import messagebox
+
 
 class MainMenu:
-  def __init__(self, add_student_service, printfunc, searchfunc, user):
-    self.student_service = add_student_service #add student class
-    self.addfunc = self.student_service.add_student #
-    self.createfunc = self.student_service.create
-    self.printfunc = printfunc
-    self.searchfunc = searchfunc
-    self.user = user
+    def __init__(self, root, add_student_service, printfunc, searchfunc, user):
+        self.root = root
+        self.student_service = add_student_service
+        self.addfunc = self.student_service.func
+        self.createfunc = self.student_service.create
+        self.printfunc = printfunc
+        self.searchfunc = searchfunc
+        self.user = user
 
-  @staticmethod
-  def cls():
-    os.system('cls' if os.name == 'nt' else 'clear')
+        self.create_gui()
 
-  @staticmethod
-  def menu(name):
-    print(f"Greetings, {name}! \nPlease choose from the following options: ")
-    print(f"\n1. View your information"
-          f"\n2. View other student's information"
-          f"\n3. Register a new student"
-          f"\n4. Print all students in the list"
-          f"\n5. Exit the System")
-      
-  def func(self):
-    MainMenu.cls()
-    while True:
-      MainMenu.menu(self.user.get_name())
-      choice = int(input("\nEnter your choice: "))
+    def create_gui(self):
+        self.root.title("Student Registration System")
+        self.root.geometry("500x300")
 
-      if choice == 5:
-        print("Exiting Program")
-        break
+        # Left Frame for options
+        self.frame_left = tk.Frame(self.root)
+        self.frame_left.pack(side="left", padx=20, pady=20)
 
-      if choice == 1: 
-        self.check_own_info()
-      elif choice == 2: 
-        self.show_searched_student()
-      elif choice == 3: 
-        self.register_new_student()
-      elif choice == 4:
-        self.show_all_students()
-      print("Press enter to continue...")
-      MainMenu.cls()
-  
-  def check_own_info(self):
-    MainMenu.cls()
-    print("===My Information===")
-    print(self.user)
-    print("===Nothing Follows===")
-    input("\nPress enter to continue...")
+        # Right Frame for content
+        self.frame_right = tk.Frame(self.root)
+        self.frame_right.pack(side="right", padx=20, pady=20)
 
-  def register_new_student(self):
-    leave = False
-    while leave is not True:
-      MainMenu.cls()
+        self.label_title = tk.Label(self.frame_left, text="Main Menu", font=("Arial", 16))
+        self.label_title.grid(row=0, column=0, pady=10)
 
-      print("===Add new student===\n")
+        # Buttons for options
+        self.btn_view_info = tk.Button(self.frame_left, text="View My Info", width=20, command=self.check_own_info)
+        self.btn_view_info.grid(row=1, column=0, pady=5)
 
-      name = input("Enter the name: ").strip().replace(',', "")
-      age = input("Enter the age: ").strip().replace(',', "")
-      id = input("Enter the ID: ").strip().replace(',', "")
-      email = input("Enter the email: ").strip().replace(',', "")
-      num = input("Enter the number: ").strip().replace(',', "")
+        self.btn_search_student = tk.Button(self.frame_left, text="Search Student Info", width=20, command=self.show_searched_student)
+        self.btn_search_student.grid(row=2, column=0, pady=5)
 
-      print("\n===Nothing Follows===")
-      self.createfunc([name, age, id, email, num])
-      
-      print(f"Added '{name}' to the system.\n")
+        self.btn_register_student = tk.Button(self.frame_left, text="Register New Student", width=20, command=self.register_new_student)
+        self.btn_register_student.grid(row=3, column=0, pady=5)
 
-      again = input("Do you wish to add another student?(Y/N): ").strip().lower()
-      if again == 'n':
-        leave = True
+        self.btn_print_all_students = tk.Button(self.frame_left, text="Print All Students", width=20, command=self.show_all_students)
+        self.btn_print_all_students.grid(row=4, column=0, pady=5)
 
-  def show_searched_student(self):
-    MainMenu.cls()
+        self.btn_exit = tk.Button(self.frame_left, text="Exit System", width=20, command=self.exit_system)
+        self.btn_exit.grid(row=5, column=0, pady=5)
 
-    user_input = input("Enter Student ID: ")
-    student = self.searchfunc(self.student_service.path, user_input)
+        self.content_display = tk.Label(self.frame_right, text="Welcome to the Main Menu", font=("Arial", 12))
+        self.content_display.grid(row=0, column=0, pady=10)
 
-    if student:
-      print("===Student Information===")
-      name, age, id, email, num = student
-      print(
-            f"Name:   {name}\n"
-            f"Age:    {age}\n"
-            f"ID:     {id}\n"
-            f"Email:  {email}\n"
-            f"Phone:  {num}"
-            )
-      print("=====Nothing Follows=====")
-    else:
-      print(f"Student ID '{user_input}' not found.")
-    
-    input("\nPress enter to continue...")
-    MainMenu.cls()
+    def display_content(self, text):
+        self.content_display.config(text=text)
 
-  def show_all_students(self):
-    MainMenu.cls()
+    def check_own_info(self):
+        info = f"=== My Information ===\n{self.user}\n=== Nothing Follows ==="
+        self.display_content(info)
 
-    print("===All Students Information===")
-    self.printfunc(self.student_service.student_list)
-    print("=======Nothing Follows=======")
+    def register_new_student(self):
+        name = input("Enter the name: ").strip().replace(',', "")
+        age = input("Enter the age: ").strip().replace(',', "")
+        student_id = input("Enter the ID: ").strip().replace(',', "")
+        email = input("Enter the email: ").strip().replace(',', "")
+        num = input("Enter the phone number: ").strip().replace(',', "")
 
-    input("\nPress enter to continue...")
-    MainMenu.cls()
+        student = StudentInfo(name, age, student_id, email, num)
+        self.createfunc([name, age, student_id, email, num])
+
+        self.display_content(f"Added {name} to the system.\nPress Enter to continue...")
+
+    def show_searched_student(self):
+        student_id = input("Enter Student ID to search: ")
+        student = self.searchfunc(student_id)
+
+        if student:
+            self.display_content(f"=== Student Information ===\n{student}")
+        else:
+            self.display_content(f"Student with ID {student_id} not found!")
+
+    def show_all_students(self):
+        students = "\n".join([str(student) for student in self.student_service.db])
+        self.display_content(f"=== All Students Information ===\n{students}")
+
+    def exit_system(self):
+        self.root.quit()
