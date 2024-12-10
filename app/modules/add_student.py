@@ -1,3 +1,5 @@
+from tkinter import *
+from functools import partial
 class AddStudent:
   def __init__(self, constructor, db, path):
     self.constructor = constructor
@@ -24,3 +26,12 @@ class AddStudent:
     with open(self.path, 'a') as f:
       display = ",".join(student.attributes())
       f.write(f"{display}\n")
+
+  def show_reg_ui(cats, register_frame):
+    cats.lblErrors = Label(register_frame, text="", font=("Segoe UI", 18), fg="red")
+    cats.lblErrors.grid(row=1, column=0, columnspan=4)
+    cats.register_txt = ["Name", "Age", "ID", "Email", "Phone"]
+    cats.reg_entry = []
+    for i in range(len(cats.register_txt)):
+      Label(register_frame, text=cats.register_txt[i], font=("Segoe UI", 18), width=13, anchor="w").grid(row=i+2, column=0)
+      cats.reg_entry.append(Entry(register_frame)
