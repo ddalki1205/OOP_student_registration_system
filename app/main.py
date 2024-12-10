@@ -4,7 +4,6 @@ from modules.print_all_student import PrintAllStudents
 from modules.search_student import Search
 from modules.student import StudentInfo
 from modules.main_menu import MainMenu
-import tkinter as tk
 
 DB_PATH = "app/student_data.txt"
 
@@ -18,10 +17,9 @@ search_service = Search(DB_PATH, StudentInfo)
 
 add_student_service.read()
 
-# Log in process
-access = log_in_service.func(student_db)
+# Call GUI login here instead of the console version
+access = log_in_service.func(student_db, use_gui=True)
 
 if access:
-    root = tk.Tk()
-    main_menu = MainMenu(root, add_student_service, print_all_service.func, search_service.func, access)
-    root.mainloop()
+    main_menu = MainMenu(add_student_service, print_all_service.func, search_service.func, access)
+    main_menu.func()
