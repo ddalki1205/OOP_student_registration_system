@@ -1,71 +1,113 @@
 from tkinter import *
 from functools import partial
-from modules.add_student import AddStudent
 from modules.log_in import LogIn
-from modules.print_all_student import PrintAllStudents
-from modules.search_student import Search
+from modules.add_student import AddStudent
 from modules.student import StudentInfo
-from modules.main_menu import MainMenu
 
+# ---------- MAIN WINDOW ----------
 win = Tk()
-
-win.geometry(f"{1300}x{800}+50+50")
-win.config(bg = "#000000")
+win.geometry("1300x800+50+50")
+win.config(bg="#000000")
 win.title("Student Registration System")
 
-buttons = [] ; container = []
-btn_txt = ["View Profile", "Search Student", "Print All Students", "Register Student", "Exit"]
+buttons = []
+container = []
+btn_txt = ["View Profile", "Search Student", "Print All Students", "Register Student", "Log Out"]
 
+# Simulated student database
+all_students = []
+students_file = "student_data.txt"
+
+# ---------- CLASS INSTANCES ----------
+login_system = LogIn()
+add_student_instance = AddStudent(StudentInfo, all_students, students_file)
+
+# ---------- FUNCTION DEFINITIONS ----------
 def login_confirm():
-    #confirm creds
-    login_frame.pack_forget()
-    main_frame.pack(fill="both", expand=True)
+    """
+    Confirm credentials: switch from login to main interface.
+    """
+    studentID = id_entry.get()  # Get input from entry field
+    student = login_system.validate_credentials(all_students, studentID)
+    
+    if student:
+        error_label.config(text="Login Successful!", fg="green")
+        login_frame.pack_forget()
+        main_frame.pack(fill="both", expand=True)
+    else:
+        if login_system.remaining_attempts() > 0:
+            error_label.config(text=f"Invalid ID. {login_system.remaining_attempts()} attempts left.", fg="red")
+        else:
+            error_label.config(text="Too many failed attempts. Exiting...", fg="red")
+            win.quit()
 
 def logout_confirm():
+    """
+    Log out: switch back to login screen.
+    """
     main_frame.pack_forget()
     login_frame.pack(fill="both", expand=True)
 
-def open_frame(frame_open, close):
-    for i in range(len(close)):
-        if close[i].winfo_ismapped():
-            close[i].pack_forget()
-    frame_open.pack(side="right", fill="x")
+def open_frame(frame_open, all_frames):
+    """
+    Hide all frames and show the selected one.
+    """
+    for frame in all_frames:
+        frame.pack_forget()
+    frame_open.pack(side="right", fill="both", expand=True)
 
-#login frame
+# ---------- LOGIN FRAME ----------
 login_frame = Frame(win, bg="black")
 login_frame.pack(fill="both", expand=True)
+
+# Login form UI
 login_form = Frame(login_frame, bg="white", padx=20, pady=20)
 login_form.place(relx=0.5, rely=0.5, anchor="center")
-Label(login_form, text="Log in", bg="skyblue", width=20, font=("Segoe UI", 18))
-login_btn, exit_btn = Button(login_form, text="Log In", font=("Segoe UI", 18), bg="skyblue", width=20), Button(login_form, text="Exit", font=("Segoe UI", 18), bg="skyblue", width=20)
-login_btn.pack(pady=20), exit_btn.pack()
-login_btn.config(command=login_confirm)
 
-#main frame
+Label(login_form, text="Log In", bg="skyblue", width=20, font=("Segoe UI", 18)).pack(pady=10)
+Label(login_form, text="Enter Student ID:", font=("Segoe UI", 14)).pack(pady=5)
+
+id_entry = Entry(login_form, font=("Segoe UI", 14), width=20)
+id_entry.pack(pady=5)
+
+error_label = Label(login_form, text="", font=("Segoe UI", 12), fg="red")
+error_label.pack(pady=5)
+
+login_btn = Button(login_form, text="Log In", font=("Segoe UI", 18), bg="skyblue", width=20, command=login_confirm)
+exit_btn = Button(login_form, text="Exit", font=("Segoe UI", 18), bg="skyblue", width=20, command=win.quit)
+
+login_btn.pack(pady=10)
+exit_btn.pack()
+
+# ---------- MAIN INTERFACE ----------
 main_frame = Frame(win, bg="white")
+
+# Sidebar menu
 menu_container = Frame(main_frame, bg="green")
-menu_container.pack(fill="y", side="right")
+menu_container.pack(fill="y", side="left")
+
+# Content area
 content_frame = Frame(main_frame, bg="gray")
-content_frame.pack(fill="x", side="right")
+content_frame.pack(fill="both", expand=True, side="right")
 
+# Initialize all frames
+for i in range(len(btn_txt) - 1):  
+    frame = Frame(content_frame, bg="pink", pady=8)
+    Label(frame, text=btn_txt[i], bg="white", font=("Segoe UI", 18), width=20, anchor="center").pack()
+    container.append(frame)
 
-#all frames
-for i in range(len(btn_txt)-1):
-    container.append(Frame(content_frame, bg="pink", pady=8))
-    Label(container[i], text=btn_txt[i], bg="white", font=("Segoe UI", 18), width=20, anchor="center").grid(row=0, column=0, columnspan=6)
-
-func = [partial(open_frame, container[0], [container[1], container[2],container[3]]),
-        partial(open_frame, container[1], [container[0], container[2],container[3]]),
-        partial(open_frame, container[2], [container[1], container[0],container[3]]),
-        partial(open_frame, container[3], [container[1], container[2],container[0]]),
-        logout_confirm]
+# Button functionality
+func = [
+    partial(open_frame, container[i], container) for i in range(len(container))
+] + [logout_confirm]
 
 for i in range(len(btn_txt)):
-    buttons.append(Button(menu_container, bg="skyblue", font=("Segoe UI", 18), text=btn_txt[i], anchor="center", width="20"))
-    buttons[i].grid(row=i, column=0)
-    buttons[i].config(command=func[i])
+    btn = Button(menu_container, bg="skyblue", font=("Segoe UI", 18), text=btn_txt[i], anchor="center", width=20, command=func[i])
+    btn.grid(row=i, column=0)
+    buttons.append(btn)
 
-#register frame
+# Register frame logic
+add_student_instance.show_reg_ui(container[2])  # Load "Register Student" frame
 
-
+# ---------- RUN MAINLOOP ----------
 win.mainloop()
