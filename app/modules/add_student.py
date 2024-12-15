@@ -1,5 +1,4 @@
 import customtkinter as ctk
-import tkinter.messagebox
 
 class AddStudent:
     def __init__(self, constructor, path):

@@ -1,22 +1,19 @@
 import customtkinter as ctk
-from tkinter import PhotoImage
 from PIL import Image, ImageTk
 from modules.log_in import LogIn
 
-class LoginWindow:
-    def __init__(self, master, students_file):
-        self.master = master
+class LoginFrame(ctk.CTkFrame):
+    def __init__(self, parent, students_file):
+        super().__init__(parent.root, fg_color="#303030", bg_color="black")
+        self.parent = parent
         self.students_file = students_file
         self.login_system = LogIn(self.students_file)
+
         self.create_widgets()
 
     def create_widgets(self):
-        # Login frame
-        self.login_frame = ctk.CTkFrame(self.master, fg_color="#303030", bg_color="black")
-        self.login_frame.pack(fill="both", expand=True)
-
         # Login form UI
-        self.login_form = ctk.CTkFrame(self.login_frame, fg_color="#303030")
+        self.login_form = ctk.CTkFrame(self, fg_color="#303030")
         self.login_form.pack(padx=20, pady=20, expand=True)
 
         # Logo image (use Pillow to load the image)
@@ -53,14 +50,13 @@ class LoginWindow:
         exit_btn.pack(padx=2, pady=2)
 
     def login_confirm(self):
-        studentID = self.id_entry.get().strip()
-        print(f"Input ID: {studentID}")
-        student = self.login_system.validate_credentials(studentID)
-        if student:
-            print(f"Student found: {student.get_id()}")
-            self.error_label.configure(text="Login Successful!", text_color="green")
-            self.login_frame.pack_forget()
-        else:
-            self.error_label.configure(text="Invalid ID. Please try again.", text_color="red")
-
-    
+            studentID = self.id_entry.get().strip()
+            print(f"Input ID: {studentID}")
+            student = self.login_system.validate_credentials(studentID)
+            if student:
+                print(f"Student found: {student.get_id()}")
+                self.error_label.configure(text="")
+                self.id_entry.delete(0, 'end')
+                self.parent.switch_frame("main")
+            else:
+                self.error_label.configure(text="Invalid ID. Please try again.", text_color="red")
