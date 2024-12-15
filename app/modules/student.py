@@ -5,7 +5,6 @@ class StudentInfo:
         self.id = id
         self.email = email
         self.phone = phone
-        self.all_student = []
   
     def attributes(self):
         return [self.name, self.age, self.id, self.email, self.phone]
