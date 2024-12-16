@@ -65,6 +65,15 @@ class AddStudent:
             print(f"An error occurred while writing to the file: {e}")
 
 
+    def show_student_ui(self, view_profile_frame, student: object):
+        print(f"displaying student {student}:")
+        if not student:
+            return
+
+        self.label = ctk.CTkLabel(view_profile_frame, text="", font=("Tahoma", 20, "italic"))
+        self.label.configure(text=f"{student}")
+        self.label.pack(pady=10)
+
     def show_reg_ui(self, register_frame):
         """
         Create the student registration UI.
@@ -107,6 +116,6 @@ class AddStudent:
             for entry in self.register_entry:  # Clear fields after success
                 entry.delete(0, ctk.END)
         else:
-            self.lblErrors.config(
+            self.lblErrors.configure(
                 text=f"The following error(s) occurred:\n{''.join(errors)}\nPlease try again."
             )
