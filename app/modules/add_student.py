@@ -1,4 +1,5 @@
 import customtkinter as ctk
+from CTkMessagebox import CTkMessagebox
 
 class AddStudent:
     def __init__(self, constructor, path):
@@ -12,13 +13,9 @@ class AddStudent:
         self.write(student)
 
     def create(self, attributes):
-        """
-        Create a new student object, validate, and write to the file.
-        """
         try:
-            # Convert ID and age to integers
             name, age, student_id, email, phone = attributes
-            new_student = self.constructor(name, int(age), int(student_id), email, phone)
+            new_student = self.constructor(name, age, student_id, email, phone)
             self.func(new_student)
         except ValueError:
             print("Error: Invalid data type. Age and Student ID must be integers.")
@@ -112,9 +109,14 @@ class AddStudent:
                 self.register_entry[4].get().strip(),
             ]
             self.create(attributes)
-            ctk.messagebox.showinfo("Register Success", "Student added to the file!")
-            for entry in self.register_entry:  # Clear fields after success
-                entry.delete(0, ctk.END)
+            response = CTkMessagebox(message="The student registration was successful.",
+                  icon="check", option_1="Continue")
+            
+            result = response.get()
+
+            if result:
+                for entry in self.register_entry:
+                    entry.delete(0, ctk.END)
         else:
             self.lblErrors.configure(
                 text=f"The following error(s) occurred:\n{''.join(errors)}\nPlease try again."

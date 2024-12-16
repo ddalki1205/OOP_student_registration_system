@@ -1,4 +1,6 @@
 import customtkinter as ctk
+from CTkTable import *
+
 
 class PrintAllStudents:
     def __init__(self, path, constructor):
@@ -18,8 +20,19 @@ class PrintAllStudents:
 
     def display(self, view_all_frame):
         print("displaying all students")
-        label = ctk.CTkLabel(view_all_frame, text="All students:", font=("Mojang", 20), width=13, anchor="e")
+        frame = ctk.CTkScrollableFrame(view_all_frame)
+        frame.pack(expand=True, fill="both")
+        label = ctk.CTkLabel(frame, text="All students:", font=("Mojang", 20), width=13, anchor="e")
         label.pack(pady=5, padx=20, anchor="w")  
 
+        data_table = []
+        data_table.append(['ID', 'Name', 'Age', 'Email', 'Phone']) # adding the header
+
         for student in self.func():
-            ctk.CTkLabel(view_all_frame, text=f"{student}", font=("Mojang", 20)).pack(pady=20)
+            print(f"Adding to the table {student.name}")
+            name, age, id, email, phone = student.attributes()
+            row = [id, name, age, email, phone]
+            data_table.append(row)
+        
+        table = CTkTable(master=frame, row=len(data_table), column=len(data_table[1]), values=data_table)
+        table.pack(expand=True, fill="both", padx=20, pady=20)
