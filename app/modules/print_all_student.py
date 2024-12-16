@@ -1,3 +1,5 @@
+import customtkinter as ctk
+
 class PrintAllStudents:
     def __init__(self, path, constructor):
         self.path = path  
@@ -9,6 +11,15 @@ class PrintAllStudents:
                 for line in f:
                     attributes = line.strip().split(',')
                     student = self.constructor(*attributes)  
-                    print(student)  # Print using the __str__ method of StudentInfo
+                    #print(student)
+                    yield student
         except FileNotFoundError:
             print("No student data file found.")
+
+    def display(self, view_all_frame):
+        print("displaying all students")
+        label = ctk.CTkLabel(view_all_frame, text="All students:", font=("Mojang", 20), width=13, anchor="e")
+        label.pack(pady=5, padx=20, anchor="w")  
+
+        for student in self.func():
+            ctk.CTkLabel(view_all_frame, text=f"{student}", font=("Mojang", 20)).pack(pady=20)

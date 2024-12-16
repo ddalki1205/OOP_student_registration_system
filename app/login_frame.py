@@ -57,6 +57,7 @@ class LoginFrame(ctk.CTkFrame):
                 print(f"Student found: {student.get_id()}")
                 self.error_label.configure(text="")
                 self.id_entry.delete(0, 'end')
+                self.parent.set_user_as_logged_in(student)
                 self.parent.switch_frame("main")
             else:
                 self.error_label.configure(text="Invalid ID. Please try again.", text_color="red")
