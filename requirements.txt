@@ -1,3 +1,4 @@
 customtkinter
 pillow
-CTkMessagebox
+CTkMessagebox==2.7
+CTkTable==1.1
