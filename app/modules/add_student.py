@@ -2,17 +2,27 @@ import customtkinter as ctk
 from CTkMessagebox import CTkMessagebox
 
 class AddStudent:
-    def __init__(self, constructor, path):
-        self.constructor = constructor  # The StudentInfo class
-        self.path = path               # The file path
+    def __init__(self, data_processor):
+        self.data_processor = data_processor
 
+
+    ''' ---------------------------------------------------------------------------------------------------------------
+    *
+    *
+    *   OLD FUNCTIONS FEEL FREE TO REMOVE THESE ARE THEY ARE SUPERSEDED BY THE DATA_PROCESSOR CLASS WHICH HANLES IT NOW
+    *
+    *
+    * ----------------------------------------------------------------------------------------------------------------- '''
+    
     def func(self, student):
+        pass
         """
         Write a single student to the file.
         """
         self.write(student)
 
     def create(self, attributes):
+        pass
         students_id = []
 
         for student in self.read():
@@ -30,6 +40,7 @@ class AddStudent:
         return 0
 
     def read(self):
+        pass
         try:
             with open(self.path, 'r') as f:
                 for line in f:
@@ -52,6 +63,7 @@ class AddStudent:
 
 
     def write(self, student):
+        pass
         """
         Append a single student to the file.
         """
@@ -62,6 +74,7 @@ class AddStudent:
                 print(f"Student written to file: {display}")
         except Exception as e:
             print(f"An error occurred while writing to the file: {e}")
+    '''----------------------------------------------------------------------------------------------------------------- ''' 
 
 
     def show_student_ui(self, view_profile_frame, student: object):
@@ -110,9 +123,10 @@ class AddStudent:
                 self.register_entry[3].get().strip(),
                 self.register_entry[4].get().strip(),
             ]
-            result = self.create(attributes)
 
-            if result == 0:
+            result = self.data_processor.add_student_to_program(*attributes)
+
+            if type(result) == object:
                 response = CTkMessagebox(message="The student registration was successful.",
                     icon="check", option_1="Continue")
             

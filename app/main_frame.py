@@ -1,23 +1,22 @@
 import customtkinter as ctk
 
 from modules.add_student import AddStudent
-from modules.student import StudentInfo
 from modules.search_student import Search
 from modules.print_all_student import PrintAllStudents
 
 class MainFrame(ctk.CTkFrame):
-    def __init__(self, parent, students_file):
+    def __init__(self, parent):
         super().__init__(parent.root, fg_color="white", bg_color="black")
         self.parent = parent
-        self.students_file = students_file
-
+        self.data_processor = parent.data_processor
+        
         self.container = []
         self.buttons = []
         self.btn_txt = ["View Profile", "Search Student", "View Students", "Register Student", "Log Out"]
 
-        self.add_student_instance = AddStudent(StudentInfo, self.students_file)
-        self.search_student_instance = Search(self.students_file, StudentInfo)
-        self.print_all_students_instance = PrintAllStudents(self.students_file, StudentInfo)
+        self.add_student_instance = AddStudent(self.data_processor)
+        self.search_student_instance = Search(self.data_processor)
+        self.print_all_students_instance = PrintAllStudents(self.data_processor)
 
         self.create_widgets()
 

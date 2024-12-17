@@ -1,11 +1,19 @@
 import customtkinter as ctk
 from tkinter import StringVar
 class Search:
-    def __init__(self, path, constructor):
-        self.path = path
-        self.constructor = constructor  
+    def __init__(self, data_processor):
+     self.data_processor = data_processor
+
+     ''' ---------------------------------------------------------------------------------------------------------------
+    *
+    *
+    *   OLD FUNCTIONS FEEL FREE TO REMOVE THESE ARE THEY ARE SUPERSEDED BY THE DATA_PROCESSOR CLASS WHICH HANLES IT NOW
+    *
+    *
+    * ----------------------------------------------------------------------------------------------------------------- '''
 
     def func(self, target_id):
+        pass
         try:
             with open(self.path, 'r') as f:
                 for line in f:
@@ -15,6 +23,7 @@ class Search:
         except FileNotFoundError:
             print("No student data file found.")
         return None
+    ''' ----------------------------------------------------------------------------------------------------------------- '''
     
     def display(self, search_frame):
         """
@@ -47,7 +56,7 @@ class Search:
             self.lblErrors.configure(text="Error, no input from u")
             return
         
-        result: object = self.func(entry) # student object if found
+        result: object = self.data_processor.fetch_student_by_id(entry) # student object if found
 
         if not result:
             self.lblErrors.configure(text="Error, could not find student")

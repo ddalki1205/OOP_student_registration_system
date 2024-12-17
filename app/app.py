@@ -52,7 +52,7 @@ class App:
         if target_frame_name == "login":
             self.current_frame = LoginFrame(self)
         elif target_frame_name == "main":
-            self.current_frame = MainFrame(self, App.STUDENT_PATH)
+            self.current_frame = MainFrame(self)
         else:
             print(f"Frame '{target_frame_name}' not found.")
             return
