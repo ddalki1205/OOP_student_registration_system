@@ -3,11 +3,9 @@ from PIL import Image, ImageTk
 from modules.log_in import LogIn
 
 class LoginFrame(ctk.CTkFrame):
-    def __init__(self, parent, students_file):
+    def __init__(self, parent):
         super().__init__(parent.root, fg_color="#303030", bg_color="black")
         self.parent = parent
-        self.students_file = students_file
-        self.login_system = LogIn(self.students_file)
 
         self.create_widgets()
 
@@ -50,11 +48,9 @@ class LoginFrame(ctk.CTkFrame):
         exit_btn.pack(padx=2, pady=2)
 
     def login_confirm(self):
-            studentID = self.id_entry.get().strip()
-            print(f"Input ID: {studentID}")
-            student = self.login_system.validate_credentials(studentID)
+            student_id = self.id_entry.get().strip()
+            student = self.parent.data_processor.fetch_student_by_id(student_id)
             if student:
-                print(f"Student found: {student.get_id()}")
                 self.error_label.configure(text="")
                 self.id_entry.delete(0, 'end')
                 self.parent.set_user_as_logged_in(student)

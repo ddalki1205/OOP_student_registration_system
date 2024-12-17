@@ -3,15 +3,21 @@ import customtkinter as ctk
 from login_frame import LoginFrame
 from main_frame import MainFrame
 
+from modules.data.data_processor import DataProcessor
+from modules.student import StudentInfo
 class App:
 
     SCALING = 1.5
     TITLE = "Student Management System"
-    STUDENT_PATH = "app/student_data.txt"
+    STUDENT_PATH = "app/modules/data/student_data.txt"
 
-    def __init__(self):
-        ctk.set_appearance_mode("dark")
-        ctk.set_default_color_theme("dark-blue")
+    ctk.set_appearance_mode("dark")
+    ctk.set_default_color_theme("dark-blue")
+
+    def __init__(self, data_processor: object):
+        self.data_processor = data_processor
+        self.data_processor.load_to_program()
+
         self.root = ctk.CTk()
         self.root.title(App.TITLE)
         self.root.iconbitmap('app/images/education.ico')
@@ -44,9 +50,9 @@ class App:
             self.current_frame.destroy()
 
         if target_frame_name == "login":
-            self.current_frame = LoginFrame(self, App.STUDENT_PATH)
+            self.current_frame = LoginFrame(self)
         elif target_frame_name == "main":
-            self.current_frame = MainFrame(self, App.STUDENT_PATH)
+            self.current_frame = MainFrame(self)
         else:
             print(f"Frame '{target_frame_name}' not found.")
             return
@@ -66,6 +72,12 @@ class App:
     def run(self):
         self.root.mainloop()
 
+data_processor = DataProcessor(
+    student_constructor = StudentInfo,
+    data_file_path = "app/modules/data/student_data.txt"
+)
+app = App(
+    data_processor = data_processor
+)
 
-app = App()
 app.run()

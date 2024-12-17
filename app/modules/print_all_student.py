@@ -3,11 +3,18 @@ from CTkTable import *
 
 
 class PrintAllStudents:
-    def __init__(self, path, constructor):
-        self.path = path  
-        self.constructor = constructor 
-
+    def __init__(self, data_processor):
+        self.data_processor = data_processor
+    
+    ''' ---------------------------------------------------------------------------------------------------------------
+    *
+    *
+    *   OLD FUNCTIONS FEEL FREE TO REMOVE THESE ARE THEY ARE SUPERSEDED BY THE DATA_PROCESSOR CLASS WHICH HANLES IT NOW
+    *
+    *
+    * ----------------------------------------------------------------------------------------------------------------- ''' 
     def func(self):
+        pass
         try:
             with open(self.path, 'r') as f:
                 for line in f:
@@ -17,6 +24,7 @@ class PrintAllStudents:
                     yield student
         except FileNotFoundError:
             print("No student data file found.")
+    ''' ----------------------------------------------------------------------------------------------------------------- '''
 
     def display(self, view_all_frame):
         print("displaying all students")
@@ -28,7 +36,7 @@ class PrintAllStudents:
         data_table = []
         data_table.append(['ID', 'Name', 'Age', 'Email', 'Phone']) # adding the header
 
-        for student in self.func():
+        for student in self.data_processor.students.values():
             print(f"Adding to the table {student.name}")
             name, age, id, email, phone = student.attributes()
             row = [id, name, age, email, phone]
