@@ -13,32 +13,34 @@ class AddStudent:
         self.write(student)
 
     def create(self, attributes):
-        try:
-            name, age, student_id, email, phone = attributes
-            new_student = self.constructor(name, age, student_id, email, phone)
-            self.func(new_student)
-        except ValueError:
-            print("Error: Invalid data type. Age and Student ID must be integers.")
-        except Exception as e:
-            print(f"An error occurred: {e}")
+        students_id = []
+
+        for student in self.read():
+            print(f"{student.id}")
+            students_id.append(student.id)
+
+        name, age, student_id, email, phone = attributes
+        new_student = self.constructor(name, age, student_id, email, phone)
+        print("Searching if ID is duplicate")
+        if new_student.id in students_id:
+            print("Duplicate ID Found")
+            return -1
+        print("Passed, adding student")
+        self.func(new_student)
+        return 0
 
     def read(self):
-        """
-        Read all student records from the file and print debug info.
-        """
-        print(f"Attempting to open file: {self.path}")  # Debugging
         try:
             with open(self.path, 'r') as f:
-                print("File opened successfully!")  # Debugging
                 for line in f:
-                    print(f"Read line: {line.strip()}")  # Debugging
-                    if line.strip():  # Ensure the line is not empty
+                    if line.strip():
                         attributes = [value.strip() for value in line.strip().split(',')]
                         print(f"Attributes after split: {attributes}")  # Debugging
                         if len(attributes) == 5:  # Check for proper number of attributes
                             name, age, student_id, email, phone = attributes
-                            student = self.constructor(name, int(age), int(student_id), email, phone)
-                            print(f"Loaded student: {student.attributes()}")
+                            student = self.constructor(name, age, student_id, email, phone)
+                            #print(f"Loaded student: {student.attributes()}")
+                            yield student
                         else:
                             print("Warning: Incorrect number of attributes in line.")
         except FileNotFoundError:
@@ -108,15 +110,21 @@ class AddStudent:
                 self.register_entry[3].get().strip(),
                 self.register_entry[4].get().strip(),
             ]
-            self.create(attributes)
-            response = CTkMessagebox(message="The student registration was successful.",
-                  icon="check", option_1="Continue")
-            
-            result = response.get()
+            result = self.create(attributes)
 
-            if result:
-                for entry in self.register_entry:
-                    entry.delete(0, ctk.END)
+            if result == 0:
+                response = CTkMessagebox(message="The student registration was successful.",
+                    icon="check", option_1="Continue")
+            
+                response_get = response.get()
+
+                if response_get:
+                    for entry in self.register_entry:
+                        entry.delete(0, ctk.END)
+            else:
+                self.lblErrors.configure(
+                text=f"The Student ID {attributes[2]} is already taken"
+            )
         else:
             self.lblErrors.configure(
                 text=f"The following error(s) occurred:\n{''.join(errors)}\nPlease try again."

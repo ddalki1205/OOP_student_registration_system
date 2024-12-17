@@ -7,7 +7,7 @@ class App:
 
     SCALING = 1.5
     TITLE = "Student Management System"
-    STUDENT_PATH = "app/student_data.txt"
+    STUDENT_PATH = "app/modules/data/student_data.txt"
 
     def __init__(self):
         ctk.set_appearance_mode("dark")
