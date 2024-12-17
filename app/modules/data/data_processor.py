@@ -5,6 +5,15 @@ class DataProcessor:
         self.data_file_path: str = data_file_path
         self.students: dict[str : object] = {} # ID : Student Object
 
+    def write_to_file(self, student):
+        '''
+        Helper function to assist add_student_to_program()
+        '''
+        with open(self.data_file_path, 'a') as file:
+            to_be_written: str = f'{DataProcessor.DELIMITER}'.join(student.attributes())
+            file.write(f"{to_be_written}\n")
+            print(f"Student ID '{student.id} was written into the file!'")
+
     def load_to_program(self):
         print("Loading student data to program...")
         with open(self.data_file_path, 'r') as file:
@@ -46,6 +55,7 @@ class DataProcessor:
             return errors
         
         student = self.student_constructor(name, age, id, email, phone)
+        self.write_to_file(student)
 
         self.students[student.id] = student
 
