@@ -31,6 +31,7 @@ class DataProcessor:
 
     def fetch_student_by_id(self, id: str):
         result = self.students.get(id)
+        print(f"result of fetching id: {id}\n{"Found" if result else "Not Found"}")
         return result if result else None
     
     def add_student_to_program(self, name: str, age: str, id: str, email: str, phone: str):
@@ -41,13 +42,14 @@ class DataProcessor:
 
         errors["name"] = "Name is required" if not name else None
         errors["age"] = "Age is required" if not age else None
-        errors["id"] = "ID is required" if not id else f"The ID '{id}' is already taken" if not check_for_duplicate_id else None
+        errors["id"] = "ID is required" if not id else f"The ID '{id}' is already taken" if check_for_duplicate_id else None
+
         errors["email"] = "Email is required" if not email else None
         errors["phone"] = "Phone Number is required" if not phone else None
 
         found_error = False
         for value in list(errors.values()):
-            if not value:
+            if value:
                 found_error = True
                 break
         

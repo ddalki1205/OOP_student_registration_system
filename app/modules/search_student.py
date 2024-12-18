@@ -4,47 +4,28 @@ class Search:
     def __init__(self, data_processor):
      self.data_processor = data_processor
 
-     ''' ---------------------------------------------------------------------------------------------------------------
-    *
-    *
-    *   OLD FUNCTIONS FEEL FREE TO REMOVE THESE ARE THEY ARE SUPERSEDED BY THE DATA_PROCESSOR CLASS WHICH HANLES IT NOW
-    *
-    *
-    * ----------------------------------------------------------------------------------------------------------------- '''
-
-    def func(self, target_id):
-        pass
-        try:
-            with open(self.path, 'r') as f:
-                for line in f:
-                    attributes = line.strip().split(',')
-                    if attributes[2] == target_id:  
-                        return self.constructor(*attributes)  
-        except FileNotFoundError:
-            print("No student data file found.")
-        return None
     ''' ----------------------------------------------------------------------------------------------------------------- '''
     
     def display(self, search_frame):
         """
         Create the search for students UI.
         """
-        self.lblErrors = ctk.CTkLabel(search_frame, text="", font=("Mojang", 20), text_color="red")
-        self.lblErrors.pack(pady=10)  
-        
-        label = ctk.CTkLabel(search_frame, text="Search Student", font=("Mojang", 20), width=13, anchor="e")
-        label.pack(pady=5, padx=20, anchor="w")  
+
+        label = ctk.CTkLabel(search_frame, text="Search  Student:", font=("Mojang", 23), width=13, text_color="white")
+        label.pack(pady=40, padx=20, anchor="s")  
 
         self.search_input = StringVar(search_frame)
-        self.entry = ctk.CTkEntry(search_frame, textvariable=self.search_input ,width=40, font=("Mojang", 20))
-        self.entry.pack(pady=5, padx=20, fill="x") 
+        self.entry = ctk.CTkEntry(search_frame, textvariable=self.search_input , width=600, font=("Segoe UI", 20))
+        self.entry.pack(padx=20) 
 
-        search_btn = ctk.CTkButton(search_frame, width=30, text="Search",
-                                    font=("Mojang", 20), command=self.check_entries)
-        search_btn.pack(pady=20)
+        self.lblErrors = ctk.CTkLabel(search_frame, text="", font=("Segoe UI", 20), text_color="red")
+        self.lblErrors.pack(pady=10)  
 
-        self.display_student_label = ctk.CTkLabel(search_frame)
-        self.display_student_label.pack(pady=20)
+        search_btn = ctk.CTkButton(search_frame, width=20, text="Search", font=("Mojang", 17), text_color="white", fg_color="#009047", hover_color="#064d2a", border_spacing=15, corner_radius=0, command=self.check_entries)
+        search_btn.pack(pady=10)
+
+        self.display_student_label = ctk.CTkLabel(search_frame, text="")
+        self.display_student_label.pack(pady=30)
 
     def check_entries(self):
         """
@@ -53,18 +34,28 @@ class Search:
         entry: str = self.entry.cget("textvariable").get().strip()
 
         if not entry:
-            self.lblErrors.configure(text="Error, no input from u")
+            self.lblErrors.configure(text="Error, wla k nilagay")
             return
-        
-        result: object = self.data_processor.fetch_student_by_id(entry) # student object if found
+
+        result: object = self.data_processor.fetch_student_by_id(entry)  # if found
 
         if not result:
-            self.lblErrors.configure(text="Error, could not find student")
+            self.lblErrors.configure(text="Error, wla sa db")
             return
 
-        student_attributes: list[str] = result.attributes() #[name, age, id, email, phone]
-        name, age, id, email, phone =  student_attributes
-        
+        # Get [name, age, id, email, phone]
+        student_attributes: list[str] = result.attributes()
+        name, age, student_id, email, phone = student_attributes
+
         self.lblErrors.configure(text="")
-        self.display_student_label.configure(text=f"{name}")
+
+        details = (
+            f"Name: {name}\n\n"
+            f"Age: {age}\n\n"
+            f"ID: {student_id}\n\n"
+            f"Email: {email}\n\n"
+            f"Phone: {phone}"
+        )
+        self.display_student_label.configure(text=details, font=("Mojang", 20), text_color="white", anchor="w", justify="left")
+
         

@@ -1,10 +1,16 @@
 import customtkinter as ctk
 
+import ctypes
+
 from login_frame import LoginFrame
 from main_frame import MainFrame
 
 from modules.data.data_processor import DataProcessor
 from modules.student import StudentInfo
+
+myappid = 'mycompany.myproduct.subproduct.version' # arbitrary string
+ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
+
 class App:
 
     SCALING = 1.5
@@ -27,7 +33,7 @@ class App:
 
         self.current_frame = None
 
-        self.switch_frame('login')
+        self.switch_frame('main')
 
     def configure_geometry(self):
         screen_w = self.root.winfo_screenwidth()

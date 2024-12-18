@@ -11,10 +11,10 @@ class StudentInfo:
   
     def __str__(self):
         return (
-            f"\nName:   {self.name}"
-            f"\nAge:    {self.age}"
-            f"\nID:     {self.id}"
-            f"\nEmail:  {self.email}"
+            f"\nName:   {self.name}\n"
+            f"\nAge:    {self.age}\n"
+            f"\nID:     {self.id}\n"
+            f"\nEmail:  {self.email}\n"
             f"\nPhone:  {self.phone}\n"
             )
   

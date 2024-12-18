@@ -8,4 +8,13 @@ Neb,22,2023-2-00486,Neb@lpunetwork.edu.ph,091230
 Raciram,20,2023-2-00312,Raciram@lpunetwork.edu.ph,091231
 Uoliehc,19,2023-2-00487,uoliehc@lpunetwork.edu.ph,091232
 Esiuol,19,2023-2-00995,esiuol@lpunetwork.edu.ph,091233
-admin,admin,admin,ad@mail.com,ad
+admin,admin,admin,admin@mail.com,admin
+Nayeon,28,2024-1-00007,nayeon@twice.com,09123456789
+Jeongyeon,27,2024-1-00008,jeongyeon@twice.com,09234567890
+Momo,27,2024-1-00009,momo@twice.com,09345678901
+Sana,28,2024-1-00010,sana@twice.com,09456789012
+Jihyo,28,2024-1-00011,jihyo@twice.com,09567890123
+Minatozaki,26,2024-1-00012,minatozaki@twice.com,09678901234
+Dahyun,26,2024-1-00013,dahyun@twice.com,09789012345
+Chaeyoung,24,2024-1-00014,chaeyoung@twice.com,09890123456
+Tzuyu,24,2024-1-00015,tzuyu@twice.com,09901234567
