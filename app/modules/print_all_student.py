@@ -17,7 +17,7 @@ class PrintAllStudents:
         label.pack(pady=30, anchor="n")  
 
         data_table = []
-        data_table.append(['ID', 'Name', 'Age', 'Email', 'Phone']) # adding the header
+        data_table.append(['ID', 'Name', 'Age', 'Email', 'Phone']) 
 
         for student in self.data_processor.students.values():
             print(f"Adding to the table {student.name}")

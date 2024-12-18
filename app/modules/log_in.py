@@ -6,8 +6,8 @@ class LogIn:
     
     def __init__(self, students_file):
         self.students_file = students_file
-        self.db = self.load_students()  # Load students on initialization
-        self.attempts = LogIn.MAX_ATTEMPTS  # Instance-level attempts
+        self.db = self.load_students()  
+        self.attempts = LogIn.MAX_ATTEMPTS  
 
     def load_students(self):
         students = []
@@ -35,7 +35,6 @@ class LogIn:
         while attempts > 0:
             studentID = input("Enter your Student ID to access the system: ")
 
-            # Call validate_credentials to check if the student ID is valid
             student = self.validate_credentials(studentID)
 
             if student:
@@ -51,7 +50,7 @@ class LogIn:
         return False
 
     def validate_credentials(self, studentID):
-        studentID = studentID.strip().lower()  # Normalize input to lowercase
+        studentID = studentID.strip().lower()  
         print(f"Searching for student {studentID} in DB...")  # Debug
         print(self.db)
         for student in self.db:

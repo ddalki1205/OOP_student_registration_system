@@ -1,6 +1,6 @@
 import os
 
-class MainMenu:  # System
+class MainMenu:  
     def __init__(self, add_student_service, printfunc, searchfunc, user):
         self.student_service = add_student_service
         self.addfunc = self.student_service.func
@@ -76,11 +76,11 @@ class MainMenu:  # System
         MainMenu.cls()
 
         user_input = input("Enter Student ID: ")
-        student = self.searchfunc(user_input)  # Call the search function with user input
+        student = self.searchfunc(user_input)  
 
         if student:
             print("=== Student Information ===")
-            print(student)  # This will call the __str__ method of StudentInfo
+            print(student)  
             print("===== Nothing Follows =====")
         else:
             print(f"Student ID '{user_input}' not found.")
@@ -92,7 +92,7 @@ class MainMenu:  # System
         MainMenu.cls()
 
         print("=== All Students Information ===")
-        self.printfunc()  # Call the print function to display students from the file
+        self.printfunc() 
         print("======= Nothing Follows =======")
 
         input("\nPress enter to continue...")

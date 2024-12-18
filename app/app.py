@@ -33,7 +33,7 @@ class App:
 
         self.current_frame = None
 
-        self.switch_frame('main')
+        self.switch_frame('login')
 
     def configure_geometry(self):
         screen_w = self.root.winfo_screenwidth()

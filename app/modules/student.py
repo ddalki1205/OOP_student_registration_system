@@ -11,11 +11,11 @@ class StudentInfo:
   
     def __str__(self):
         return (
-            f"\nName:   {self.name}\n"
-            f"\nAge:    {self.age}\n"
-            f"\nID:     {self.id}\n"
-            f"\nEmail:  {self.email}\n"
-            f"\nPhone:  {self.phone}\n"
+            f"\n               Name:   {self.name}\n"
+            f"\n               Age:    {self.age}\n"
+            f"\n               ID:     {self.id}\n"
+            f"\n               Email:  {self.email}\n"
+            f"\n               Phone:  {self.phone}\n"
             )
   
     def get_name(self):

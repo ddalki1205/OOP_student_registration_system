@@ -35,7 +35,7 @@ class LoginFrame(ctk.CTkFrame):
 
         # Buttons in login form
         button_frame = ctk.CTkFrame(self.login_form, fg_color="#303030", border_width=190)
-        button_frame.pack(pady=15)
+        button_frame.pack(pady=10)
 
         login_btn = ctk.CTkButton(button_frame, text="Log In", font=("Mojang", 14), fg_color="#008542", hover_color="#064d2a", width=180, height=40, 
                                   corner_radius=0, border_spacing=15, command=self.login_confirm)
@@ -54,4 +54,4 @@ class LoginFrame(ctk.CTkFrame):
                 self.parent.set_user_as_logged_in(student)
                 self.parent.switch_frame("main")
             else:
-                self.error_label.configure(text="Invalid ID. Please try again.", text_color="red")
+                self.error_label.configure(text="Invalid ID.\n\nPlease try again.", text_color="red")

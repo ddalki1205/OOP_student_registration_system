@@ -1,5 +1,9 @@
+import os
+import random
 import customtkinter as ctk
 from CTkMessagebox import CTkMessagebox
+from PIL import Image, ImageTk
+
 
 class AddStudent:
     def __init__(self, data_processor):
@@ -7,14 +11,42 @@ class AddStudent:
 
     '''----------------------------------------------------------------------------------------------------------------- ''' 
 
+    def get_random_image(self, folder_path):
+        files = os.listdir(folder_path)
+        image_files = [file for file in files if file.endswith(('.png', '.jpg'))]
+        if not image_files:
+            raise FileNotFoundError("No image files found in the specified folder.")
+        random_image = random.choice(image_files)
+        return os.path.join(folder_path, random_image)
+    
+
     def show_student_ui(self, view_profile_frame, student: object):
         print(f"displaying student {student}:")
         if not student:
             return
+        
+        label = ctk.CTkLabel(view_profile_frame, text=f"{student.get_name()}'s     Profile", font=("Mojang", 26), text_color="white", corner_radius=0, width=10)
+        label.pack(pady=50, padx=150, anchor="w")
 
-        self.label = ctk.CTkLabel(view_profile_frame, text="", font=("Mojang", 20), text_color="white", anchor="w", justify="left")
-        self.label.configure(text=f"{student}")
-        self.label.pack(pady=10)
+        folder_path = "app/images/face"
+        random_image_path = self.get_random_image(folder_path)
+
+        original_image = Image.open(random_image_path)
+        resized_image = original_image.resize((200, 200), Image.LANCZOS) 
+        student_image = ImageTk.PhotoImage(resized_image)
+
+        self.label = ctk.CTkLabel(
+            view_profile_frame,
+            text=f"{student}",
+            font=("Mojang", 20),
+            text_color="white",
+            image=student_image,   
+            compound="left",                
+            justify="left",
+        )
+        self.label.image = student_image  
+        self.label.pack(pady=0, padx=150, anchor="w")
+
 
     def show_reg_ui(self, register_frame):
         """
